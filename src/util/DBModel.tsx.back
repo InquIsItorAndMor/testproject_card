@@ -1,0 +1,25 @@
+// type TypeArticles = {
+//   title: string
+//   date: string
+//   author: string
+//   description: string
+//   product: string
+//   visibility: string
+//   popularity: number
+// }
+
+// type TypeDB = {
+//   data: TypeArticles[]
+// }
+
+// export const DBModel = () => {
+//   let _db: TypeDB | null = null
+//   async function init() {
+//     let respons = await fetch('/db.json')
+//     _db = (await respons.json()) as TypeDB
+//   }
+
+//   return {
+//     init,
+//   }
+// }
