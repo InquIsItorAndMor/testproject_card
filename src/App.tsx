@@ -22,6 +22,7 @@ type TypeDB = {
 function App() {
   const contex = useContext(DBContext)
   const card = contex as TypeDB
+  const sort: (keyof TypeArticles)[] = ['product', 'date']
   return (
     <div className={style.App}>
       <div className={`${style.column} ${style.grid}`}>
@@ -29,7 +30,7 @@ function App() {
         <Filter filterName="visibility" />
       </div>
       <div className={style.column}>
-        <Sort sortName={['product']}>
+        <Sort sortName={sort}>
           {card.data.map((value, index) => (
             <Card key={index} {...value} />
           ))}

@@ -1,0 +1,21 @@
+.sort button {
+  font-size: 12px;
+  color: green;
+  background: none;
+  border: none;
+  border-right: 2px solid gray;
+}
+
+.buttonSort {
+  display: flex;
+  justify-content: end;
+  margin-bottom: 20px;
+}
+
+.buttonSort button:hover {
+  color: lawngreen;
+}
+
+.sort .buttonSort button:last-child {
+  border: none;
+}
