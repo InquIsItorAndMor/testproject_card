@@ -1,6 +1,51 @@
 .card {
-    border: 2px solid gray;
-    display: grid;
-    grid-template-columns: 20% 50% 30%;
-    margin-bottom: 20px;
+  border: 2px solid gray;
+  display: grid;
+  grid-template-columns: 20% 60% 20%;
+  margin-bottom: 20px;
+  margin-left: 20px;
+}
+
+.card h3 {
+  color: lawngreen;
+  font-size: 20px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.partners {
+  border: 3px solid green;
+  background: lightgreen;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.partners + img {
+  width: 52px;
+  height: 52px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+.description {
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.column:nth-child(1) {
+  display: grid;
+  grid-template-columns: min-content;
+  justify-content: center;
+}
+.column:nth-child(3) {
+  font-size: 12px;
+  align-items: center;
+  display: grid;
+  grid-template-rows: 33% 33% 33%;
+  color: gray;
+}
+
+.date_author {
+  grid-row: 2;
 }
