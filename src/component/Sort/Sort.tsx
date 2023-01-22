@@ -24,6 +24,8 @@ type TypeSort = {
 export const Sort = function (props: TypeSort) {
   const context: TypeDB = useContext(DBContext) as TypeDB
 
+  const clickSort = function (event: Event) {}
+
   return (
     <div>
       {props.sortName.map((value, index) => (
