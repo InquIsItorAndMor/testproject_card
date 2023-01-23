@@ -99,7 +99,9 @@ export const Sort = function (props: TypeSort) {
           </button>
         ))}
       </div>
-      {sortchildren.children}
+      <div className={style.content}>
+        {sortchildren.children}
+      </div>
     </div>
   )
 }
