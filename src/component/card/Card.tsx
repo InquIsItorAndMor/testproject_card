@@ -1,16 +1,7 @@
 import React from 'react'
 import style from './Card.module.css'
 import { format } from 'date-fns'
-
-type TypeArticles = {
-  title: string
-  date: string
-  author: string
-  description: string
-  product: string
-  visibility: string
-  popularity: number
-}
+import { TypeArticles } from '../../type'
 
 export const Card = (props: TypeArticles) => {
   const formatDate = new Date(props.date)
@@ -18,7 +9,7 @@ export const Card = (props: TypeArticles) => {
     <div className={style.card}>
       <div className={style.column}>
         <div className={style.partners}>Partners</div>
-        <img src="./envelope.png" />
+        <img alt="" src="./envelope.png" />
       </div>
       <div>
         <h3>{props.title}</h3>

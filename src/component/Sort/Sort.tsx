@@ -1,15 +1,6 @@
 import React, { useState } from 'react'
 import style from './Sort.module.css'
-
-type TypeArticles = {
-  title: string
-  date: string
-  author: string
-  description: string
-  product: string
-  visibility: string
-  popularity: number
-}
+import { TypeArticles } from '../../type'
 
 type TypeSort = {
   sortName: (keyof TypeArticles)[]
@@ -17,12 +8,19 @@ type TypeSort = {
 }
 
 export const Sort = function (props: TypeSort) {
-  const [sortchildren, setSortchildren] = useState({
-    children: props.children,
-    sort: props.sortName.map((value) => {
+  const object = {
+    children: [...props.children],
+    sort: [...props.sortName.map((value) => {
       return { name: value, direction: false }
-    }),
-  })
+    })],
+  }
+  const updateState = function () {
+    if (sortchildren.children.length !== object.children.length) {
+      setSortchildren({ ...object })
+    }
+  }
+  const [sortchildren, setSortchildren] = useState({ ...object })
+  updateState()
 
   const sortDecreasing = (
     n1: JSX.Element,
