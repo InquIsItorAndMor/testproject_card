@@ -4,10 +4,10 @@ import { ListElementFilter } from './ListElementFilter'
 import { TypeArticles, TypeDB } from '../../type'
 
 type TypeFilter = {
-  filterName: (keyof TypeArticles)[],
-  db: TypeDB,
-  card: TypeDB,
-  setCard: React.Dispatch<React.SetStateAction<TypeDB>>
+  filterName: keyof TypeArticles,
+  refObject: React.RefObject<any>,
+  context: TypeDB,
+  listFilter: (keyof TypeArticles)[]
 }
 
 type TypeFilterArticles = {
@@ -17,7 +17,7 @@ type TypeFilterArticles = {
 
 export const Filter = function (props: TypeFilter) {
   const getListTypeFilter = (filter: keyof TypeArticles): TypeFilterArticles[] => {
-    let response: TypeFilterArticles[] = props.db.data.map(value => { return { filter: value[filter], checked: true } })
+    let response: TypeFilterArticles[] = props.context.data.map(value => { return { filter: value[filter], checked: true } })
     const uniq = new Set(response.map(value => JSON.stringify(value)));
     const res = Array.from(uniq).map(value => JSON.parse(value));
     response = res;
@@ -25,63 +25,62 @@ export const Filter = function (props: TypeFilter) {
   }
 
   const initFilter = function () {
-    const filter = props.filterName.map(value => {
-      return { typeFilter: value, filterValue: getListTypeFilter(value) }
-    })
+    const filter = { typeFilter: props.filterName, filterValue: getListTypeFilter(props.filterName) }
     return filter
   }
   let filter = initFilter()
 
   const updateFilter = function (event: EventTarget & HTMLInputElement) {
     const typeFilter = event.attributes.getNamedItem("data-name-filter")?.value;
-    const nameFilter = event.attributes.getNamedItem("data-value")?.value;
-    filter = filter.map(value => {
-      if (typeFilter && value.typeFilter === typeFilter) {
-        if (nameFilter) {
-          value.filterValue.map(filterValue => {
-            if (filterValue.filter === nameFilter) {
-              filterValue.checked = event.checked
-            }
-            return filterValue
-          })
-        }
+    const valueFilter = event.attributes.getNamedItem("data-value")?.value;
+    if (typeFilter && filter.typeFilter === typeFilter) {
+      if (valueFilter) {
+        filter.filterValue.map(filterValue => {
+          if (filterValue.filter === valueFilter) {
+            filterValue.checked = event.checked
+          }
+          return filterValue
+        })
       }
-      return value
-    });
+    }
 
-    let filterChildren: TypeArticles[] = [...props.db.data]
-    filter.forEach(nextFilter => {
-      let filterElement: TypeArticles[] = []
-      nextFilter.filterValue.forEach(filterValue => {
-        filterElement = [
-          ...filterElement,
-          ...filterChildren.filter(db => {
-            return filterValue.checked && db[nextFilter.typeFilter] === filterValue.filter.toString()
-          })]
-
+    console.log(props.refObject.current?.childNodes[1].childNodes);
+    const object: HTMLDivElement[] = props.refObject.current?.childNodes[1].childNodes;
+    object.forEach((value) => {
+      let countFalseFilter: number = 0
+      const keyCurrentFilter = `filter${props.filterName.substr(0, 1).toUpperCase() + props.filterName.substr(1, props.filterName.length)}`
+      const currentFilter = value.dataset[keyCurrentFilter]
+      const curentFilterValue = value.dataset[props.filterName]
+      if (currentFilter !== undefined && curentFilterValue === valueFilter) {
+        !currentFilter ? value.setAttribute(`data-filter-${props.filterName}`, "1") : value.setAttribute(`data-filter-${props.filterName}`, "")
+      }
+      const attributes = value.dataset
+      props.listFilter.forEach(lvalue => {
+        const key = lvalue.substr(0, 1).toUpperCase() + lvalue.substr(1, lvalue.length)
+        if (attributes[`filter${key}`] !== undefined && !attributes[`filter${key}`]) {
+          countFalseFilter++
+        }
       })
-      filterChildren = filterElement
+      if (countFalseFilter > 0) {
+        value.style.display = "none"
+      } else {
+        value.style.display = ""
+      }
     })
-    props.setCard({ data: [...filterChildren] })
   }
 
   return (
     <React.Fragment>
-      {
-        filter.map((value, index) => {
-          return (
-            <div key={index} className={style.filter}>
-              <div className={style.title}>{value.typeFilter}</div>
-              <ul>
-                {
-                  value.filterValue.map((filterValue, index) => {
-                    return <ListElementFilter updateFilter={updateFilter} key={index} name={filterValue.filter} checked={filterValue.checked} typeFilter={value.typeFilter} />
-                  })
-                }
-              </ul>
-            </div>)
-        })
-      }
+      <div className={style.filter}>
+        <div className={style.title}>{filter.typeFilter}</div>
+        <ul>
+          {
+            filter.filterValue.map((filterValue, index) => {
+              return <ListElementFilter updateFilter={updateFilter} key={index} name={filterValue.filter} checked={filterValue.checked} typeFilter={filter.typeFilter} />
+            })
+          }
+        </ul>
+      </div>
     </React.Fragment>
   )
 }

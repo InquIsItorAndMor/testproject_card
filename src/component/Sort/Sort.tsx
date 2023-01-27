@@ -4,7 +4,8 @@ import { TypeArticles } from '../../type'
 
 type TypeSort = {
   sortName: (keyof TypeArticles)[]
-  children: JSX.Element[]
+  children: JSX.Element[],
+  sortDOM: React.RefObject<HTMLDivElement>
 }
 
 export const Sort = function (props: TypeSort) {
@@ -91,7 +92,7 @@ export const Sort = function (props: TypeSort) {
   }
 
   return (
-    <div className={style.sort}>
+    <div className={style.sort} ref={props.sortDOM}>
       <div className={style.buttonSort}>
         {props.sortName.map((value, index) => (
           <button key={index} onClick={clickSort} value={value}>
