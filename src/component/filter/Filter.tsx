@@ -44,7 +44,6 @@ export const Filter = function (props: TypeFilter) {
       }
     }
 
-    console.log(props.refObject.current?.childNodes[1].childNodes);
     const object: HTMLDivElement[] = props.refObject.current?.childNodes[1].childNodes;
     object.forEach((value) => {
       let countFalseFilter: number = 0

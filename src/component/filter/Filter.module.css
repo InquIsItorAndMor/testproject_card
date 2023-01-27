@@ -2,7 +2,7 @@
   border: 2px solid gray;
   border-radius: 10px 10px 0 0;
   margin-bottom: 15px;
-  margin-right: 20px;
+  max-width: 90%;
 }
 
 .title {
@@ -21,4 +21,13 @@
   display: inline-block;
   padding: 0 10px;
   min-width: 200px;
+  /* max-width: 80%; */
+  /* white-space: nowrap; */
+}
+
+.filter ul label {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  /* max-width: 80%; */
+  word-break: break-all;
 }

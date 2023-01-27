@@ -11,7 +11,7 @@ export const App = () => {
   const sort: (keyof TypeArticles)[] = ['product', 'date']
 
   const sortRef = useRef<HTMLDivElement>(null)
-  const listFilter: (keyof TypeArticles)[] = ["product", "visibility"]
+  const listFilter: (keyof TypeArticles)[] = ["product", "visibility", "popularity"]
 
   useEffect(() => {
     console.log(sortRef)
@@ -20,8 +20,11 @@ export const App = () => {
   return (
     <div className={style.App}>
       <div className={`${style.column} ${style.grid}`}>
-        <Filter filterName={"product"} refObject={sortRef} context={context} listFilter={listFilter} />
-        <Filter filterName={"visibility"} refObject={sortRef} context={context} listFilter={listFilter} />
+        {
+          listFilter.map((value, index) => {
+            return <Filter key={index} filterName={value} refObject={sortRef} context={context} listFilter={listFilter} />
+          })
+        }
       </div>
       <div className={style.column}>
         <Sort sortName={sort} sortDOM={sortRef}>
